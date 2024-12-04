@@ -55,4 +55,59 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dynamically generate species cards and voting options
   speciesData.forEach((species, index) => {
     // Generate species cards
-    const card = document
+    const card = document.createElement("div");
+    card.className = "species-card";
+    card.innerHTML = `
+      <img src="${species.imgSrc}" alt="${species.name}">
+      <h3>${species.name}</h3>
+    `;
+
+    card.addEventListener("click", () => {
+      // Populate species information
+      infoName.textContent = `Name: ${species.name}`;
+      infoHabitat.textContent = `Habitat: ${species.habitat}`;
+      infoDiet.textContent = `Diet: ${species.diet}`;
+      infoFact.textContent = `Interesting Fact: ${species.fact}`;
+      speciesInfo.style.display = "block"; // Show the info section
+    });
+
+    speciesContainer.appendChild(card);
+
+    // Populate voting dropdown
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = species.name;
+    voteSelect.appendChild(option);
+  });
+
+  // Handle voting
+  voteButton.addEventListener("click", () => {
+    const selectedIndex = voteSelect.value;
+
+    if (selectedIndex !== "") {
+      // Increment vote count
+      speciesData[selectedIndex].votes++;
+
+      // Display feedback
+      voteFeedback.textContent = `Thank you for voting for ${speciesData[selectedIndex].name}!`;
+      setTimeout(() => {
+        voteFeedback.textContent = "";
+      }, 3000);
+
+      // Update vote results
+      updateVoteResults();
+    } else {
+      alert("Please select a species to vote!");
+    }
+  });
+
+  // Function to update vote results
+  const updateVoteResults = () => {
+    voteResults.innerHTML = "<h4>Current Votes:</h4>";
+    speciesData.forEach((species) => {
+      const result = document.createElement("p");
+      result.textContent = `${species.name}: ${species.votes} votes`;
+      voteResults.appendChild(result);
+    });
+  };
+});
