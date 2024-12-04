@@ -1,98 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize EmailJS with your Public Key
+  emailjs.init("MB5KcWqkuel1Kq1l6"); // Replace with your actual Public Key
+
   const speciesData = [
-    {
-      name: "Penguin",
-      habitat: "Antarctica",
-      diet: "Carnivore",
-      fact: "Penguins are excellent swimmers and can dive to depths of over 500 meters!",
-      imgSrc: "https://github.com/AraceliGuz/InteractiveSpeciesWebpage/raw/main/penguinpic.jpeg",
-      votes: 0,
-    },
-    {
-      name: "Tiger",
-      habitat: "Forests",
-      diet: "Carnivore",
-      fact: "Tigers are the largest members of the cat family and can weigh up to 660 pounds!",
-      imgSrc: "https://github.com/AraceliGuz/InteractiveSpeciesWebpage/raw/main/Tigerpic.jpg",
-      votes: 0,
-    },
-    {
-      name: "Koala",
-      habitat: "Eucalyptus forests",
-      diet: "Herbivore",
-      fact: "Koalas sleep up to 18-22 hours a day due to their low-energy diet of eucalyptus leaves.",
-      imgSrc: "https://github.com/AraceliGuz/InteractiveSpeciesWebpage/raw/main/koalaoriginal.jpeg",
-      votes: 0,
-    },
+    { name: "Penguin", votes: 0 },
+    { name: "Tiger", votes: 0 },
+    { name: "Koala", votes: 0 },
   ];
 
   const speciesContainer = document.getElementById("speciesContainer");
-  const votingSection = document.getElementById("votingSection");
+  const speciesVote = document.getElementById("speciesVote");
+  const voteButton = document.getElementById("voteButton");
+  const voteFeedback = document.getElementById("voteFeedback");
 
-  // Dynamically generate species cards
+  // Create species cards
   speciesData.forEach((species, index) => {
     const card = document.createElement("div");
     card.className = "species-card";
     card.innerHTML = `
-      <img src="${species.imgSrc}" alt="${species.name}">
+      <img src="images/${species.name.toLowerCase()}.jpg" alt="${species.name}">
       <h3>${species.name}</h3>
     `;
-
-    card.addEventListener("click", () => {
-      const speciesInfo = document.getElementById("speciesInfo");
-      document.getElementById("infoName").textContent = `Name: ${species.name}`;
-      document.getElementById("infoHabitat").textContent = `Habitat: ${species.habitat}`;
-      document.getElementById("infoDiet").textContent = `Diet: ${species.diet}`;
-      document.getElementById("infoFact").textContent = `Interesting Fact: ${species.fact}`;
-      speciesInfo.style.display = "block";
-    });
-
     speciesContainer.appendChild(card);
+
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = species.name;
+    speciesVote.appendChild(option);
   });
-
-  // Generate voting section
-  const voteForm = `
-    <h3>Vote for Your Favorite Species</h3>
-    <select id="voteSelect">
-      <option value="">-- Select a species --</option>
-      ${speciesData.map((species, index) => `<option value="${index}">${species.name}</option>`).join("")}
-    </select>
-    <button id="voteButton">Vote</button>
-    <p id="voteFeedback" class="feedback"></p>
-    <div id="voteResults"></div>
-  `;
-  votingSection.innerHTML = voteForm;
-
-  const voteButton = document.getElementById("voteButton");
-  const voteSelect = document.getElementById("voteSelect");
-  const voteFeedback = document.getElementById("voteFeedback");
-  const voteResults = document.getElementById("voteResults");
 
   // Handle voting
   voteButton.addEventListener("click", () => {
-    const selectedIndex = voteSelect.value;
+    const selectedSpeciesIndex = speciesVote.value;
+    if (selectedSpeciesIndex !== "") {
+      const selectedSpecies = speciesData[selectedSpeciesIndex];
+      selectedSpecies.votes++;
 
-    if (selectedIndex !== "") {
-      speciesData[selectedIndex].votes++;
+      // Prepare email data to send to the template
+      const templateParams = {
+        species: selectedSpecies.name,  // The species the user voted for
+        votes: selectedSpecies.votes,   // The updated vote count
+        reply_to: "0850855@my.scccd.edu" // Your email for replies
+      };
 
-      voteFeedback.textContent = `Thank you for voting for ${speciesData[selectedIndex].name}!`;
-      setTimeout(() => {
-        voteFeedback.textContent = "";
-      }, 3000);
-
-      updateVoteResults();
+      // Send email with vote data to the template
+      emailjs
+        .send("service_b417vw5", "YOUR_TEMPLATE_ID", templateParams)  // Use your Service ID and Template ID
+        .then(() => {
+          voteFeedback.textContent = `Thank you for voting for ${selectedSpecies.name}!`;
+          setTimeout(() => {
+            voteFeedback.textContent = "";
+          }, 3000);
+        })
+        .catch((error) => {
+          console.error("Failed to send email:", error);
+          alert("Failed to send vote. Please try again.");
+        });
     } else {
       alert("Please select a species to vote!");
     }
   });
-
-  // Function to update vote results
-  const updateVoteResults = () => {
-    voteResults.innerHTML = "<h4>Current Votes:</h4>";
-    speciesData.forEach((species) => {
-      const result = document.createElement("p");
-      result.textContent = `${species.name}: ${species.votes} votes`;
-      voteResults.appendChild(result);
-    });
-  };
 });
