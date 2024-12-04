@@ -5,17 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Species Webpage</title>
   <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script> <!-- Add EmailJS script here -->
 </head>
 <body>
   <h1>Welcome to the Interactive Species Webpage</h1>
-  <div id="speciesContainer" class="species-container"></div>
-  <div id="speciesInfo" class="species-info" style="display: none;">
-    <h2 id="infoName"></h2>
-    <p id="infoHabitat"></p>
-    <p id="infoDiet"></p>
-    <p id="infoFact"></p>
+
+  <div id="speciesContainer" class="species-container">
+    <!-- Species cards will be dynamically added here by JavaScript -->
   </div>
-  <div id="votingSection" class="voting-section"></div>
-  <script src="script.js"></script>
+
+  <label for="speciesVote">Vote for your favorite species:</label>
+  <select id="speciesVote">
+    <!-- Options will be added dynamically -->
+  </select>
+
+  <button id="voteButton">Submit Vote</button>
+  <div id="voteFeedback"></div>
+
+  <script src="script.js"></script> <!-- Your custom script -->
 </body>
 </html>
