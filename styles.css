@@ -45,16 +45,14 @@ h1 {
   background-color: #ecf0f1;
 }
 
-#votingSection {
+.voting-section {
   margin-top: 30px;
   padding: 20px;
   background-color: #ecf0f1;
   border: 1px solid #ccc;
   border-radius: 10px;
   max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+  margin: 30px auto;
 }
 
 #voteResults p {
