@@ -3,72 +3,51 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       name: "Penguin",
       habitat: "Antarctica",
-      diet: "Fish, krill, squid",
-      fact: "Penguins can dive up to 500 meters deep!",
-      imgSrc: "penguin.jpg",
+      diet: "Carnivore",
+      fact: "Penguins are excellent swimmers and can dive to depths of over 500 meters!",
+      imgSrc: "https://github.com/AraceliGuz/InteractiveSpeciesWebpage/raw/main/penguinpic.jpeg",
     },
     {
       name: "Tiger",
-      habitat: "Forests, grasslands",
-      diet: "Deer, wild boar",
-      fact: "Tigers are excellent swimmers.",
-      imgSrc: "tiger.jpg",
+      habitat: "Forests",
+      diet: "Carnivore",
+      fact: "Tigers are the largest members of the cat family and can weigh up to 660 pounds!",
+      imgSrc: "https://github.com/AraceliGuz/InteractiveSpeciesWebpage/raw/main/Tigerpic.jpg",
     },
     {
       name: "Koala",
-      habitat: "Australian eucalyptus forests",
-      diet: "Eucalyptus leaves",
-      fact: "Koalas sleep for up to 20 hours a day.",
-      imgSrc: "koala.jpg",
+      habitat: "Eucalyptus forests",
+      diet: "Herbivore",
+      fact: "Koalas sleep up to 18-22 hours a day due to their low-energy diet of eucalyptus leaves.",
+      imgSrc: "https://github.com/AraceliGuz/InteractiveSpeciesWebpage/raw/main/koalaoriginal.jpeg",
     },
   ];
 
   const speciesContainer = document.getElementById("speciesContainer");
-  const speciesVote = document.getElementById("speciesVote");
-  const voteButton = document.getElementById("voteButton");
-  const voteFeedback = document.getElementById("voteFeedback");
+  const infoName = document.getElementById("infoName");
+  const infoHabitat = document.getElementById("infoHabitat");
+  const infoDiet = document.getElementById("infoDiet");
+  const infoFact = document.getElementById("infoFact");
+  const speciesInfo = document.getElementById("speciesInfo");
 
-  
-  speciesData.forEach((species, index) => {
- 
+  // Dynamically generate species cards
+  speciesData.forEach((species) => {
     const card = document.createElement("div");
     card.className = "species-card";
     card.innerHTML = `
-      <img src="${species.imgSrc}" alt="${species.name}" style="width:100%">
+      <img src="${species.imgSrc}" alt="${species.name}">
       <h3>${species.name}</h3>
     `;
+
     card.addEventListener("click", () => {
-      alert(`
-        Name: ${species.name}
-        Habitat: ${species.habitat}
-        Diet: ${species.diet}
-        Fun Fact: ${species.fact}
-      `);
+      // Populate species information
+      infoName.textContent = `Name: ${species.name}`;
+      infoHabitat.textContent = `Habitat: ${species.habitat}`;
+      infoDiet.textContent = `Diet: ${species.diet}`;
+      infoFact.textContent = `Interesting Fact: ${species.fact}`;
+      speciesInfo.style.display = "block"; // Show the info section
     });
 
-   
     speciesContainer.appendChild(card);
-
-    
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = species.name;
-    speciesVote.appendChild(option);
-  });
-
-  
-  voteButton.addEventListener("click", () => {
-    const selectedSpeciesIndex = speciesVote.value;
-    if (selectedSpeciesIndex) {
-      voteFeedback.textContent = `Thank you for voting for ${speciesData[selectedSpeciesIndex].name}!`;
-      setTimeout(() => {
-        voteFeedback.textContent = "";
-      }, 3000);
-
-      
-      console.log(`Vote submitted for: ${speciesData[selectedSpeciesIndex].name}`);
-    } else {
-      alert("Please select a species to vote!");
-    }
   });
 });
