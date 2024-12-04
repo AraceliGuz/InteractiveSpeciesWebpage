@@ -1,9 +1,19 @@
+/* General styles */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin: 20px;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
+/* Header styling */
+h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Container for species cards */
 .species-container {
   display: flex;
   justify-content: space-around;
@@ -11,18 +21,55 @@ body {
   margin-top: 20px;
 }
 
+/* Styling for each species card */
 .species-card {
   width: 250px;
   margin: 10px;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.species-card img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.species-card h3 {
+  padding: 10px;
+  margin: 0;
+  background-color: #3498db;
+  color: white;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Hover effect for species card */
 .species-card:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.feedback {
-  color: green;
-  margin-top: 10px;
+/* Information section styling */
+#speciesInfo {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #ecf0f1;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  display: none;
+}
+
+#speciesInfo h2 {
+  color: #2c3e50;
+}
+
+#speciesInfo p {
+  margin: 10px 0;
 }
