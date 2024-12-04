@@ -27,34 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   const speciesContainer = document.getElementById("speciesContainer");
-  const infoName = document.getElementById("infoName");
-  const infoHabitat = document.getElementById("infoHabitat");
-  const infoDiet = document.getElementById("infoDiet");
-  const infoFact = document.getElementById("infoFact");
-  const speciesInfo = document.getElementById("speciesInfo");
+  const votingSection = document.getElementById("votingSection");
 
-  // Voting section
-  const votingSection = document.createElement("div");
-  votingSection.id = "votingSection";
-  votingSection.innerHTML = `
-    <h3>Vote for Your Favorite Species</h3>
-    <select id="voteSelect">
-      <option value="">-- Select a species --</option>
-    </select>
-    <button id="voteButton">Vote</button>
-    <p id="voteFeedback" class="feedback"></p>
-    <div id="voteResults"></div>
-  `;
-  document.body.appendChild(votingSection);
-
-  const voteSelect = document.getElementById("voteSelect");
-  const voteButton = document.getElementById("voteButton");
-  const voteFeedback = document.getElementById("voteFeedback");
-  const voteResults = document.getElementById("voteResults");
-
-  // Dynamically generate species cards and voting options
+  // Dynamically generate species cards
   speciesData.forEach((species, index) => {
-    // Generate species cards
     const card = document.createElement("div");
     card.className = "species-card";
     card.innerHTML = `
@@ -63,38 +39,47 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     card.addEventListener("click", () => {
-      // Populate species information
-      infoName.textContent = `Name: ${species.name}`;
-      infoHabitat.textContent = `Habitat: ${species.habitat}`;
-      infoDiet.textContent = `Diet: ${species.diet}`;
-      infoFact.textContent = `Interesting Fact: ${species.fact}`;
-      speciesInfo.style.display = "block"; // Show the info section
+      const speciesInfo = document.getElementById("speciesInfo");
+      document.getElementById("infoName").textContent = `Name: ${species.name}`;
+      document.getElementById("infoHabitat").textContent = `Habitat: ${species.habitat}`;
+      document.getElementById("infoDiet").textContent = `Diet: ${species.diet}`;
+      document.getElementById("infoFact").textContent = `Interesting Fact: ${species.fact}`;
+      speciesInfo.style.display = "block";
     });
 
     speciesContainer.appendChild(card);
-
-    // Populate voting dropdown
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = species.name;
-    voteSelect.appendChild(option);
   });
+
+  // Generate voting section
+  const voteForm = `
+    <h3>Vote for Your Favorite Species</h3>
+    <select id="voteSelect">
+      <option value="">-- Select a species --</option>
+      ${speciesData.map((species, index) => `<option value="${index}">${species.name}</option>`).join("")}
+    </select>
+    <button id="voteButton">Vote</button>
+    <p id="voteFeedback" class="feedback"></p>
+    <div id="voteResults"></div>
+  `;
+  votingSection.innerHTML = voteForm;
+
+  const voteButton = document.getElementById("voteButton");
+  const voteSelect = document.getElementById("voteSelect");
+  const voteFeedback = document.getElementById("voteFeedback");
+  const voteResults = document.getElementById("voteResults");
 
   // Handle voting
   voteButton.addEventListener("click", () => {
     const selectedIndex = voteSelect.value;
 
     if (selectedIndex !== "") {
-      // Increment vote count
       speciesData[selectedIndex].votes++;
 
-      // Display feedback
       voteFeedback.textContent = `Thank you for voting for ${speciesData[selectedIndex].name}!`;
       setTimeout(() => {
         voteFeedback.textContent = "";
       }, 3000);
 
-      // Update vote results
       updateVoteResults();
     } else {
       alert("Please select a species to vote!");
