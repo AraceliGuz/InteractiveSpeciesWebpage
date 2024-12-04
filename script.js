@@ -1,7 +1,7 @@
 // Initialize EmailJS with your public key
-emailjs.init('MB5KcWqkuel1Kq1l6');  // Replace with your public key
+emailjs.init('MB5KcWqkuel1Kq1l6');  // Your public key
 
-// Sample species data (you can modify this if you want to change the species)
+// Sample species data
 const speciesData = [
   {
     name: "Penguin",
@@ -40,11 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     card.innerHTML = `
       <img src="${species.imgSrc}" alt="${species.name}">
       <h3>${species.name}</h3>
-      <p>Habitat: ${species.habitat}</p>
-      <p>Diet: ${species.diet}</p>
-      <p><strong>Fun Fact:</strong> ${species.fact}</p>
     `;
-    // Add card click event
+    // Add card click event to show species information
     card.addEventListener("click", () => {
       alert(`
         Name: ${species.name}
@@ -75,8 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
         votes: 1 // You can implement a vote counter if needed
       };
 
-      // Send email with vote data
-      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', voteData)
+      // Send email with vote data using the provided service and template ID
+      emailjs.send('service_b417vw5', 'template_cp8ex9p', voteData)
         .then(response => {
           console.log('Email sent successfully', response);
         })
